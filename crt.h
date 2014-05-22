@@ -14,11 +14,18 @@
 #define false 0
 
 typedef struct {
+	float amb;
+	float dif;
+	float spec;
+} material_t;
+
+typedef struct {
 	vec3 o;
 	vec3 color;
 	float r;
 	float reflec;
 	float refrac;
+	material_t mat;
 } sphere_t;
 
 typedef struct {
@@ -34,5 +41,7 @@ int sphere_count;
 vec3 red = {255, 0, 0};
 vec3 green = {0, 255, 0};
 vec3 black = {0, 0, 0};
+
+material_t gen = {0.50f, 0.25f, 0.25f};
 
 #endif
