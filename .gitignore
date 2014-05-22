@@ -3,5 +3,4 @@
 *.png
 *.jpg
 vector/
-
-
+*.o
