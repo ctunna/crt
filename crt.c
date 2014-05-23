@@ -49,9 +49,14 @@ float specular(const vec3 *refl, const vec3 *pt)
 	vec3 v = camera;
 
 	vec_sub(&v, pt);
+	normalize(&v);
 	dot(refl, &v, &x);
 
+	//printf("%f\t", x);
+
 	x = pow(x, 200);
+
+
 
 	return x;
 
@@ -63,8 +68,8 @@ float diffuse(const vec3 *intersection, const sphere_t s)
 	vec3 norm;
 	vec3 dir;
 
-	dir = *intersection;
-	vec_sub(&dir, &lights[0].o);
+	dir = lights[0].o;
+	vec_sub(&dir, intersection);
 	normalize(&dir);
 
 	sphere_normal(s, intersection, &norm);
@@ -114,7 +119,7 @@ int sphere_intersect(const vec3 *d, float *t, const sphere_t s)
 	if (t1 < 0) return false;
 
 	t0 < 0 ? (*t = t1) : (*t = t0);
-	
+
 	return true;
 }
 
@@ -150,7 +155,7 @@ vec3 send_ray(unsigned int depth, const vec3 *origin, vec3 *ray)
 			scale(&pt, t);        /* find x, y, z coord from */
 			vec_add(&pt, origin); /* r(t) = origin + pt*t */
 			col = spheres[i].color; 
-			scale(&col, spheres[i].mat.amb); 
+			scale(&col, spheres[i].mat.amb);
 			break;
 		}
     }
@@ -158,21 +163,21 @@ vec3 send_ray(unsigned int depth, const vec3 *origin, vec3 *ray)
 	/* if no intersection found! */
 	if( i >= sphere_count || in_shadow(&pt) ) return black;
 
-	dif_col = spheres[i].color; 
+	dif_col = spheres[i].color;
 	scale(&dif_col, diffuse(&pt, spheres[i]));
 	vec_add(&col, &dif_col);
 
 	if(depth < MAX_DEPTH) {
 		sphere_normal(spheres[i], &pt, &norm);
 		reflect_ray(origin, &pt, &norm, &new_dir);
-		reflected = send_ray(depth+1, &pt, &new_dir);
+		//reflected = send_ray(depth+1, &pt, &new_dir);
 	}
 
 	spec_col = spheres[i].color;
 	scale(&spec_col, spheres[i].mat.spec * specular(&new_dir, &pt));
 	vec_add(&col, &spec_col);
 	
-	//scale(&reflected, spheres[i].reflec);
+	/* //scale(&reflected, spheres[i].reflec); */
 
 	return col;
 	
@@ -228,7 +233,7 @@ void parse()
 	FILE *fp;
 	float x = 0.0f, y = 0.0f, z = 0.0f;
 	int r, g, b;
-	char fname[] = "spheres.obj";
+	char fname[] = "pipe.obj";
 	char buf[BSIZE];
 	sphere_t temp;
 	sphere_count = 0;
@@ -259,7 +264,7 @@ void parse()
 
 void init()
 {
-	light_t l0 = {{20.0f, 20.0f, 610.0f}}, l1 = {{400.0f, 400.0f, 0.0f}};
+	light_t l0 = {{-400.0f, 400.0f, 610.0f}}, l1 = {{400.0f, 400.0f, 0.0f}};
 	
 	lights[0] = l0;
 	lights[1] = l1;

@@ -6,7 +6,7 @@
 #include <math.h>
 #include "vector.h"
 
-#define MAX_DEPTH 5
+#define MAX_DEPTH 1
 #define BSIZE 1024
 #define WIDTH 400
 #define HEIGHT 400
