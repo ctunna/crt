@@ -6,16 +6,13 @@ CFLAGS=-Wall -Wextra -std=c99
 $(TARGET): $(MODULES)
 	gcc $(MODULES) $(CFLAGS) $(LIBS) -o $(TARGET)
 
-run: $(TARGET)
-	./$(TARGET) && convert out.ppm out.bmp && open out.bmp
-
 clean:
 	rm *.o $(TARGET)
 
 all: clean $(TARGET)
 
 conv:
-	convert out.ppm out.png
+	convert out.ppm q.bmp
 
 vector.o: vector.c vector.h
 
