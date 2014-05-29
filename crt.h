@@ -10,7 +10,7 @@
 
 #include "vector.h"
 
-#define MAX_DEPTH 5
+#define MAX_DEPTH 3
 #define BSIZE 1024
 #define WIDTH 3000
 #define HEIGHT 3000

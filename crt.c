@@ -108,7 +108,7 @@ bool sphere_intersect(const vec3 *d, float *t, const sphere_t s)
 	return true;
 }
 
-int in_shadow(const vec3 *origin)
+bool in_shadow(const vec3 *origin)
 {
 	int i;
 	vec3 v = lights[0].o;
@@ -213,15 +213,13 @@ void ray_trace()
 
 	for(i = 0; i < 4; ++i)
 	{
-		if (pthread_create (&thread_id[i], NULL, trace_block, (void *)&blocks[i]) != 0)
-        {               
-			printf("Error created thread: %zu\n", i);
+		if (pthread_create(&thread_id[i], NULL, trace_block, (void*)&blocks[i]) != 0) {               			printf("Error creating thread: %zu\n", i);
         }            
 	}
 
 	for(i = 0; i < 4; ++i)
 	{
-		pthread_join (thread_id[i], NULL);
+		pthread_join(thread_id[i], NULL);
 	}
 }
 
