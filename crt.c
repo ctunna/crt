@@ -17,7 +17,7 @@
    dir = 2(v . n)n - n
 
 */
-void reflect_ray(const vec3 *origin, const vec3 *pt, const vec3 *n, vec3 *dir)
+void reflected_ray(const vec3 *origin, const vec3 *pt, const vec3 *n, vec3 *dir)
 {
 	float x = 0.0f;
 	vec3 v = *origin;
@@ -154,7 +154,7 @@ vec3 send_ray(unsigned int depth, const vec3 *origin, vec3 *ray)
 	scale(&dif_col, spheres[i].mat.dif * diffuse(&pt, &norm));
 	vec_add(&col, &dif_col);
 
-	reflect_ray(origin, &pt, &norm, &new_dir);
+	reflected_ray(origin, &pt, &norm, &new_dir);
 
 	spec_col = white;
 	scale(&spec_col, spheres[i].mat.spec * specular(&new_dir, &pt));
