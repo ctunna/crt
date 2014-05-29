@@ -205,11 +205,11 @@ void ray_trace()
 {
 	size_t i;
 	pthread_t thread_id[4];
-	block_t blocks[4] = {{0, WIDTH / 2, 0, HEIGHT / 2}, // Upper left
-						 {(WIDTH / 2) + 1, WIDTH, 0, HEIGHT / 2}, //Upper right
-						 {0, WIDTH, (HEIGHT / 2) + 1, HEIGHT}, // Lower left
-						 {(WIDTH / 2) + 1, WIDTH, (HEIGHT / 2) + 1, HEIGHT}}; // Lower
-																			  // right
+	block_t blocks[4] =
+		{{0, WIDTH / 2, 0, HEIGHT / 2}, // Upper left
+		 {(WIDTH / 2), WIDTH, 0, HEIGHT / 2}, //Upper right
+		 {0, WIDTH, (HEIGHT / 2), HEIGHT}, // Lower left
+		 {(WIDTH / 2), WIDTH, (HEIGHT / 2), HEIGHT}}; // Lower right
 
 	for(i = 0; i < 4; ++i)
 	{
