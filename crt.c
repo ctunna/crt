@@ -179,20 +179,50 @@ vec3 color_at(const int x, const int y)
 	return send_ray(0, &camera, &ray);
 }
 
-void ray_trace()
+void *trace_block(void *args)
 {
+	block_t *block = (block_t*)args;
 	int x, y;
 
-	for (y = 0; y < HEIGHT; ++y)
+	for (y = block->ymin; y < block->ymax; ++y)
     {
-		for(x = 0; x < WIDTH; ++x)
+		for(x = block->xmin; x < block->xmax; ++x)
         {
 			img[x][y] = color_at(x,y);
         }
 		
-		if( y % 100 == 0 )
-			printf("Rendering... %.2f%%\n", ((float)y / HEIGHT) * 100.0f);
+		/*************************************************************************/
+        /* if( y % 100 == 0 ){													 */
+		/* 	printf("Rendering... %.2f%%\n", ((float)y / HEIGHT) * 100.0f);		 */
+		/* }																	 */
+        /*************************************************************************/
     }
+
+	return 0;
+}
+
+void ray_trace()
+{
+	size_t i;
+	pthread_t thread_id[4];
+	block_t blocks[4] = {{0, WIDTH / 2, 0, HEIGHT / 2}, // Upper left
+						 {(WIDTH / 2) + 1, WIDTH, 0, HEIGHT / 2}, //Upper right
+						 {0, WIDTH, (HEIGHT / 2) + 1, HEIGHT}, // Lower left
+						 {(WIDTH / 2) + 1, WIDTH, (HEIGHT / 2) + 1, HEIGHT}}; // Lower
+																			  // right
+
+	for(i = 0; i < 4; ++i)
+	{
+		if (pthread_create (&thread_id[i], NULL, trace_block, (void *)&blocks[i]) != 0)
+        {               
+			printf("Error created thread: %zu\n", i);
+        }            
+	}
+
+	for(i = 0; i < 4; ++i)
+	{
+		pthread_join (thread_id[i], NULL);
+	}
 }
 
 void write_ppm()
@@ -254,8 +284,8 @@ void init()
 	light_t l0 = {{100.0f, 200.0f, -100.0f}},
 		l1 = {{0.0f, 0.0f, -200.0f}};
 		
-	lights[0] = l0;
-	lights[1] = l1; // unused 
+		lights[0] = l0;
+		lights[1] = l1; // unused 
 }
 
 int main()

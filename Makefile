@@ -1,6 +1,6 @@
 TARGET=crt
 MODULES=crt.o vector.o 
-LIBS=-lm
+LIBS=-lm -lpthread
 CFLAGS=-Wall -Wextra -std=c99
 
 $(TARGET): $(MODULES)

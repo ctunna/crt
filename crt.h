@@ -35,6 +35,13 @@ typedef struct {
 	vec3 o;
 } light_t;
 
+typedef struct{
+	int xmin;
+	int xmax;
+	int ymin;
+	int ymax;
+} block_t;
+
 const vec3 camera = {1500, 1500, -200};
 const vec3 red = {255, 0, 0};
 const vec3 green = {0, 255, 0};
