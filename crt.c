@@ -189,6 +189,9 @@ void ray_trace()
         {
 			img[x][y] = color_at(x,y);
         }
+		
+		if( y % 100 == 0 )
+			printf("Rendering... %.2f%%\n", ((float)y / HEIGHT) * 100.0f);
     }
 }
 
@@ -217,7 +220,7 @@ void parse()
 	FILE *fp;
 	float x = 0.0f, y = 0.0f, z = 0.0f;
 	int r, g, b;
-	char fname[] = "scenes/pipe.obj";
+	char fname[] = "scenes/bigpipe.obj";
 	char buf[BSIZE];
 	sphere_t temp;
 	sphere_count = 0;

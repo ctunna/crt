@@ -3,6 +3,7 @@
 
 #include <assert.h>
 #include <math.h>
+#include <pthread.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,8 +12,8 @@
 
 #define MAX_DEPTH 5
 #define BSIZE 1024
-#define WIDTH 400
-#define HEIGHT 400
+#define WIDTH 3000
+#define HEIGHT 3000
 
 typedef struct {
 	float amb;
@@ -34,7 +35,7 @@ typedef struct {
 	vec3 o;
 } light_t;
 
-const vec3 camera = {200, 200, -200};
+const vec3 camera = {1500, 1500, -200};
 const vec3 red = {255, 0, 0};
 const vec3 green = {0, 255, 0};
 const vec3 black = {0, 0, 0};
